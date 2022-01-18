@@ -11,29 +11,85 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Installation
 
-## Features
+* Add this to your package's pubspec.yaml file:
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+```
+dependencies: 
+    json_to_widget
+```
 
-## Getting started
+* You can install packages from the command line: with Flutter:
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```
+$ flutter packages <b>get</b>
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+# JsonWidget
 
-```dart
-const like = 'sample';
+```
+JsonWidget(
+    decorations: decorations,
+    form: form,
+    onChanged: (dynamic response) {
+        this.response = response;
+    },
+    actionSave: (data) {
+        print(data);
+    },
+    buttonSave: new Container(
+        height: 40.0,
+        color: Colors.blueAccent,
+        child: Center(
+            child: Text("Login",style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+        ),
+    ),
+),
 ```
 
-## Additional information
+# Attribute
+* form (Type String) Your form in String
+* onChanged (Type Function)(1 parameter) call the function every time a change in the form is made
+* padding (Type Double)
+* formMap (Type Map) Your form in Map 
+* errorMessages(Type Map) change string for error of required
+* validations(Type Map) to add validation (TextInput,Input, Password, Email or TextArea)
+* decorations(Type Map) to add decoration (TextInput,Input, Password, Email or TextArea)
+* buttonSave(Type Widget) (not RaisedButton problem in onClick)
+* actionSave(Type Function) the function is called when you click on the widget buttonSave
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+# Form
+* Create Form String
+```
+String formString = json.encode({
+    'title': 'form example',
+    'description':'',
+    'autoValidated': true, //default false
+    'fields': [
+        ...
+    ]
+});
+```
+
+* Create Form Map
+```
+Map formMap = {
+    'title': 'form example',
+    'description':'',
+    'autoValidated': true, //default false
+    'fields': [
+        ...
+    ]
+};
+```
+
+# Fields
+* All fields has attribute labelHidden(default false)
+* Important add key for all field for validation required
+
+
+TODO: Tell users more about the package: where to find more information, how to contribute to the
+package, how to file issues, what response they can expect from the package authors, and more.
