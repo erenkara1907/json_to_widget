@@ -435,6 +435,3 @@ onChanged: (dynamic response) {
 // add text (hi) in TextField Message, update dynamic response; and add field called response
 [{type: Input, title: Subject, placeholder: Subject}, {type: TareaText, title: Message, placeholder: Content, response: hi }]
 ```
-
-TODO: Tell users more about the package: where to find more information, how to contribute to the
-package, how to file issues, what response they can expect from the package authors, and more.
