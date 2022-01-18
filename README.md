@@ -23,7 +23,7 @@ dependencies:
 * You can install packages from the command line: with Flutter:
 
 ```
-$ flutter packages get
+$ flutter packages **get**
 ```
 
 ## Usage
