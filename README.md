@@ -28,7 +28,7 @@ $ flutter packages <b>get</b>
 
 ## Usage
 
-# JsonWidget
+### JsonWidget
 
 ```
 JsonWidget(
@@ -50,7 +50,7 @@ JsonWidget(
 ),
 ```
 
-# Attribute
+### Attribute
 * form (Type String) Your form in String
 * onChanged (Type Function)(1 parameter) call the function every time a change in the form is made
 * padding (Type Double)
@@ -61,7 +61,7 @@ JsonWidget(
 * buttonSave(Type Widget) (not RaisedButton problem in onClick)
 * actionSave(Type Function) the function is called when you click on the widget buttonSave
 
-# Form
+### Form
 * Create Form String
 ```
 String formString = json.encode({
@@ -86,7 +86,7 @@ Map formMap = {
 };
 ```
 
-# Fields
+### Fields
 * All fields has attribute labelHidden(default false)
 * Important add key for all field for validation required
 
