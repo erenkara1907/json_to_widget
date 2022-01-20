@@ -3,8 +3,8 @@ library json_to_widget;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-class JsonWidget extends StatefulWidget {
-  const JsonWidget({Key? key,
+class JsonForm extends StatefulWidget {
+  const JsonForm({Key? key,
     required this.form,
     required this.onChanged,
     this.padding,
@@ -31,7 +31,7 @@ class JsonWidget extends StatefulWidget {
       _CoreWidgetState(formMap ?? json.decode(form));
 }
 
-class _CoreWidgetState extends State<JsonWidget> {
+class _CoreWidgetState extends State<JsonForm> {
   final dynamic widgetGeneral;
 
   int? radioValue;
