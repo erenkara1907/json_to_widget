@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class JsonWidget extends StatefulWidget {
-  const JsonWidget({
+  const JsonWidget({Key? key,
     required this.form,
     required this.onChanged,
     this.padding,
@@ -14,7 +14,7 @@ class JsonWidget extends StatefulWidget {
     this.decorations = const {},
     this.buttonSave,
     this.actionSave,
-  });
+  }) : super(key: key);
 
   final Map errorMessages;
   final Map validations;
@@ -42,7 +42,7 @@ class _CoreFormState extends State<JsonWidget> {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ?? 'Please enter some text';
     }
-    return null!;
+    return value;
   }
 
   String validateEmail(item, String value) {
@@ -56,7 +56,7 @@ class _CoreFormState extends State<JsonWidget> {
     RegExp regExp = RegExp(p);
 
     if (regExp.hasMatch(value)) {
-      return null!;
+      return value;
     }
     return 'Email is not valid';
   }
@@ -97,28 +97,26 @@ class _CoreFormState extends State<JsonWidget> {
           item['type'] == "Email" ||
           item['type'] == "TextArea" ||
           item['type'] == "TextInput") {
-        Widget label = SizedBox.shrink();
+        Widget label = const SizedBox.shrink();
         if (labelHidden(item)) {
-          label = new Container(
-            child: new Text(
-              item['label'],
-              style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
+          label = Text(
+            item['label'],
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           );
         }
 
-        listWidget.add(new Container(
-          margin: new EdgeInsets.only(top: 5.0),
-          child: new Column(
+        listWidget.add(Container(
+          margin: const EdgeInsets.only(top: 5.0),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               label,
-              new TextFormField(
+              TextFormField(
                 controller: null,
-                initialValue:  formGeneral['fields'][count]['value']??null,
+                initialValue:  formGeneral['fields'][count]['value'],
                 decoration: item['decoration'] ??
                     widget.decorations[item['key']] ??
-                    new InputDecoration(
+                    InputDecoration(
                       hintText: item['placeholder'] ?? "",
                       helperText: item['helpText'] ?? "",
                     ),
@@ -163,9 +161,9 @@ class _CoreFormState extends State<JsonWidget> {
         List<Widget> radios = [];
 
         if (labelHidden(item)) {
-          radios.add(new Text(item['label'],
+          radios.add(Text(item['label'],
               style:
-              new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
         }
         radioValue = item['value'];
         for (var i = 0; i < item['items'].length; i++) {
@@ -173,7 +171,7 @@ class _CoreFormState extends State<JsonWidget> {
             Row(
               children: <Widget>[
                 Expanded(
-                    child: new Text(
+                    child: Text(
                         formGeneral['fields'][count]['items'][i]['label'])),
                 Radio<int>(
                     value: formGeneral['fields'][count]['items'][i]['value'],
@@ -191,8 +189,8 @@ class _CoreFormState extends State<JsonWidget> {
         }
 
         listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
+          Container(
+            margin: const EdgeInsets.only(top: 5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: radios,
@@ -206,14 +204,14 @@ class _CoreFormState extends State<JsonWidget> {
           formGeneral['fields'][count]['value'] = false;
         }
         listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: new Row(children: <Widget>[
-              new Expanded(child: new Text(item['label'])),
-              new Switch(
+          Container(
+            margin: const EdgeInsets.only(top: 5.0),
+            child: Row(children: <Widget>[
+              Expanded(child: Text(item['label'])),
+              Switch(
                 value: item['value'] ?? false,
                 onChanged: (bool value) {
-                  this.setState(() {
+                  setState(() {
                     formGeneral['fields'][count]['value'] = value;
                     _handleChanged();
                   });
@@ -229,7 +227,7 @@ class _CoreFormState extends State<JsonWidget> {
         if (labelHidden(item)) {
           checkboxes.add(Text(item['label'],
               style:
-              TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
         }
         for (var i = 0; i < item['items'].length; i++) {
           checkboxes.add(
@@ -256,8 +254,8 @@ class _CoreFormState extends State<JsonWidget> {
         }
 
         listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
+          Container(
+            margin: const EdgeInsets.only(top: 5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: checkboxes,
@@ -267,21 +265,21 @@ class _CoreFormState extends State<JsonWidget> {
       }
 
       if (item['type'] == "Select") {
-        Widget label = SizedBox.shrink();
+        Widget label = const SizedBox.shrink();
         if (labelHidden(item)) {
-          label = new Text(item['label'],
+          label = Text(item['label'],
               style:
-              new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0));
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0));
         }
 
         listWidget.add(Container(
-          margin: new EdgeInsets.only(top: 5.0),
+          margin: const EdgeInsets.only(top: 5.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               label,
               DropdownButton<String>(
-                hint: Text("Select a user"),
+                hint: const Text("Select a user"),
                 value: formGeneral['fields'][count]['value'],
                 onChanged: (String? newValue) {
                   setState(() {
@@ -295,7 +293,7 @@ class _CoreFormState extends State<JsonWidget> {
                     value: data['value'],
                     child: Text(
                       data['label'],
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   );
                 }).toList(),
@@ -334,11 +332,11 @@ class _CoreFormState extends State<JsonWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Form(
-      autovalidateMode: formGeneral['autoValidated'] ?? false,
+      autovalidateMode: formGeneral['autoValidated'] ?? AutovalidateMode.onUserInteraction,
       key: _formKey,
-      child: new Container(
-        padding: new EdgeInsets.all(widget.padding ?? 8.0),
-        child: new Column(
+      child: Container(
+        padding: EdgeInsets.all(widget.padding ?? 8.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: jsonToForm(),
         ),

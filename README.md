@@ -150,7 +150,7 @@ Map formMap = {
 ```
 
 ### How can I place validations for my form String?
-* In JsonSchema has attributes (validations, decorations)
+* In JsonWidget has attributes (validations, decorations)
 * Important that each field has to has its unique key
 
 ```
