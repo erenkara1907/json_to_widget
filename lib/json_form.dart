@@ -27,12 +27,12 @@ class JsonForm extends StatefulWidget {
   final ValueChanged<dynamic> onChanged;
 
   @override
-  _CoreWidgetState createState() =>
-      _CoreWidgetState(formMap ?? json.decode(form));
+  _CoreFormState createState() =>
+      _CoreFormState(formMap ?? json.decode(form));
 }
 
-class _CoreWidgetState extends State<JsonForm> {
-  final dynamic widgetGeneral;
+class _CoreFormState extends State<JsonForm> {
+  final dynamic formGeneral;
 
   int? radioValue;
 
@@ -76,21 +76,21 @@ class _CoreWidgetState extends State<JsonForm> {
 
   List<Widget> jsonToForm() {
     List<Widget> listWidget = <Widget>[];
-    if (widgetGeneral['title'] != null) {
+    if (formGeneral['title'] != null) {
       listWidget.add(Text(
-        widgetGeneral['title'],
+        formGeneral['title'],
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ));
     }
-    if (widgetGeneral['description'] != null) {
+    if (formGeneral['description'] != null) {
       listWidget.add(Text(
-        widgetGeneral['description'],
+        formGeneral['description'],
         style: const TextStyle(fontSize: 14.0,fontStyle: FontStyle.italic),
       ));
     }
 
-    for (var count = 0; count < widgetGeneral['fields'].length; count++) {
-      Map item = widgetGeneral['fields'][count];
+    for (var count = 0; count < formGeneral['fields'].length; count++) {
+      Map item = formGeneral['fields'][count];
 
       if (item['type'] == "Input" ||
           item['type'] == "Password" ||
@@ -113,7 +113,7 @@ class _CoreWidgetState extends State<JsonForm> {
               label,
               TextFormField(
                 controller: null,
-                initialValue:  widgetGeneral['fields'][count]['value'],
+                initialValue:  formGeneral['fields'][count]['value'],
                 decoration: item['decoration'] ??
                     widget.decorations[item['key']] ??
                     InputDecoration(
@@ -122,7 +122,7 @@ class _CoreWidgetState extends State<JsonForm> {
                     ),
                 maxLines: item['type'] == "TextArea" ? 10 : 1,
                 onChanged: (String value) {
-                  widgetGeneral['fields'][count]['value'] = value;
+                  formGeneral['fields'][count]['value'] = value;
                   _handleChanged();
                 },
                 obscureText: item['type'] == "Password" ? true : false,
@@ -172,14 +172,14 @@ class _CoreWidgetState extends State<JsonForm> {
               children: <Widget>[
                 Expanded(
                     child: Text(
-                        widgetGeneral['fields'][count]['items'][i]['label'])),
+                        formGeneral['fields'][count]['items'][i]['label'])),
                 Radio<int>(
-                    value: widgetGeneral['fields'][count]['items'][i]['value'],
+                    value: formGeneral['fields'][count]['items'][i]['value'],
                     groupValue: radioValue,
                     onChanged: (int? value) {
                       setState(() {
                         radioValue = value!;
-                        widgetGeneral['fields'][count]['value'] = value;
+                        formGeneral['fields'][count]['value'] = value;
                         _handleChanged();
                       });
                     })
@@ -201,7 +201,7 @@ class _CoreWidgetState extends State<JsonForm> {
 
       if (item['type'] == "Switch") {
         if (item['value'] == null) {
-          widgetGeneral['fields'][count]['value'] = false;
+          formGeneral['fields'][count]['value'] = false;
         }
         listWidget.add(
           Container(
@@ -212,7 +212,7 @@ class _CoreWidgetState extends State<JsonForm> {
                 value: item['value'] ?? false,
                 onChanged: (bool value) {
                   setState(() {
-                    widgetGeneral['fields'][count]['value'] = value;
+                    formGeneral['fields'][count]['value'] = value;
                     _handleChanged();
                   });
                 },
@@ -235,13 +235,13 @@ class _CoreWidgetState extends State<JsonForm> {
               children: <Widget>[
                 Expanded(
                     child: Text(
-                        widgetGeneral['fields'][count]['items'][i]['label'])),
+                        formGeneral['fields'][count]['items'][i]['label'])),
                 Checkbox(
-                  value: widgetGeneral['fields'][count]['items'][i]['value'],
+                  value: formGeneral['fields'][count]['items'][i]['value'],
                   onChanged: (bool? value) {
                     setState(
                           () {
-                        widgetGeneral['fields'][count]['items'][i]['value'] =
+                        formGeneral['fields'][count]['items'][i]['value'] =
                             value;
                         _handleChanged();
                       },
@@ -280,10 +280,10 @@ class _CoreWidgetState extends State<JsonForm> {
               label,
               DropdownButton<String>(
                 hint: const Text("Select a user"),
-                value: widgetGeneral['fields'][count]['value'],
+                value: formGeneral['fields'][count]['value'],
                 onChanged: (String? newValue) {
                   setState(() {
-                    widgetGeneral['fields'][count]['value'] = newValue;
+                    formGeneral['fields'][count]['value'] = newValue;
                     _handleChanged();
                   });
                 },
@@ -310,7 +310,7 @@ class _CoreWidgetState extends State<JsonForm> {
         child: InkWell(
           onTap: () {
             if (_formKey.currentState!.validate()) {
-              widget.actionSave!(widgetGeneral);
+              widget.actionSave!(formGeneral);
             }
           },
           child: widget.buttonSave,
@@ -320,10 +320,10 @@ class _CoreWidgetState extends State<JsonForm> {
     return listWidget;
   }
 
-  _CoreWidgetState(this.widgetGeneral);
+  _CoreFormState(this.formGeneral);
 
   void _handleChanged() {
-    widget.onChanged(widgetGeneral);
+    widget.onChanged(formGeneral);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -331,7 +331,7 @@ class _CoreWidgetState extends State<JsonForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      autovalidateMode: widgetGeneral['autoValidated'] ?? AutovalidateMode.onUserInteraction,
+      autovalidateMode: formGeneral['autoValidated'] ?? AutovalidateMode.onUserInteraction,
       key: _formKey,
       child: Container(
         padding: EdgeInsets.all(widget.padding ?? 8.0),
