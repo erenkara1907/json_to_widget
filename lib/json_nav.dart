@@ -1,6 +1,5 @@
-library json_to_widget;
-
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class JsonNav extends StatefulWidget {
@@ -28,9 +27,25 @@ class JsonNav extends StatefulWidget {
 class _CoreNavState extends State<JsonNav> {
   final dynamic navGeneral;
 
-  int? radioValue;
-
   // Return widgets
+
+  List<Widget> jsonToBottomBar() {
+    List<Widget> bottomWidgets = <Widget>[];
+
+    for (int count = 0; count < navGeneral['fields'].length; count++) {
+      Map item = navGeneral['fields'][count];
+
+      if (item['type'] == 'text') {
+        bottomWidgets.add(Text(item['bottomText']));
+      }
+
+      if(item.containsKey('iconName')){
+        bottomWidgets.add(Text(item['iconName'],style: const TextStyle(fontFamily: 'MaterialIcons'),));
+      }
+    }
+
+    return bottomWidgets;
+  }
 
   List<Widget> jsonToNav() {
     List<Widget> navWidgets = <Widget>[];
@@ -47,13 +62,16 @@ class _CoreNavState extends State<JsonNav> {
 
   @override
   Widget build(BuildContext context) {
-    return navGeneral['nav'] == 'AppBar'
+    return navGeneral['type'] == 'AppBar'
         ? AppBar(
-            title: navGeneral['title'],
-            centerTitle: true,
-          )
-        : const BottomAppBar(
-            child: Text('Ron Digital'),
-          );
+      title: Text(navGeneral['title']),
+      centerTitle: true,
+    )
+        : BottomAppBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: jsonToBottomBar(),
+      ),
+    );
   }
 }
