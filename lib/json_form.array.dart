@@ -43,8 +43,7 @@ class _CoreWidgetState extends State<JsonFormArray> {
 
   String? isRequired(item, value) {
     if (value.isEmpty) {
-      return widget.errorMessages[item['key']] ??
-          'Lütfen boş alanları doldurunuz';
+      return widget.errorMessages[item['key']] ?? 'Lütfen zorunlu alanları doldurunuz';
     }
   }
 
@@ -54,15 +53,14 @@ class _CoreWidgetState extends State<JsonFormArray> {
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
         "(" +
         "\\." +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]  {0,25}" +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
         ")+";
     RegExp regExp = RegExp(p);
 
     if (!regExp.hasMatch(value)) {
-      return 'Geçerli bir email giriniz';
+      return 'Email onaylı değil';
     }
   }
-
   bool labelHidden(item) {
     if (item.containsKey('hiddenLabel')) {
       if (item['hiddenLabel'] is bool) {

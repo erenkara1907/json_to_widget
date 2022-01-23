@@ -42,14 +42,13 @@ class _CoreWidgetState extends State<JsonFormObject> {
 
   // validators
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
-      return widget.errorMessages[item['key']] ?? 'Please enter some text';
+      return widget.errorMessages[item['key']] ?? 'Lütfen zorunlu alanları doldurunuz';
     }
-    return value;
   }
 
-  String validateEmail(item, String value) {
+  String? validateEmail(item, String value) {
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -59,10 +58,9 @@ class _CoreWidgetState extends State<JsonFormObject> {
         ")+";
     RegExp regExp = RegExp(p);
 
-    if (regExp.hasMatch(value)) {
-      return value;
+    if (!regExp.hasMatch(value)) {
+      return 'Email onaylı değil';
     }
-    return 'Email is not valid';
   }
 
   bool labelHidden(item) {
